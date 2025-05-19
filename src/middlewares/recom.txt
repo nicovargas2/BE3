@@ -1,0 +1,1 @@
+Meter las validaciones en los middlewares es de las mejores prácticas
