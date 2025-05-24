@@ -1,3 +1,4 @@
+import CustomError from "../helpers/errors/customError.js";
 import { productsService } from "../services/products.service.js"
 //import { productsService, usersService } from "../services/service.js";
 
@@ -7,23 +8,40 @@ class Controller {
         this.service = service;
     }
     createOne = async (req, res) => {
+        //const { method, originalUrl } = req;
         const data = req.body;
         const response = await this.service.createOne(data);
-        //res.status(201).json({ response, method, originalUrl });
+        //console.log('Pasa por aquí: createOne');
+        //res.status(201).json({ response, method, url: originalUrl });
         res.json201(response);
     };
-    readAll = async (req, res) => {
+    readAllError = async (req, res) => {
+        //const { method, originalUrl } = req;
         const filter = req.query;
         const response = await this.service.readAll(filter);
+        console.log('Pasa por aquí: readAllError');
+        return res.status(200).json({ response, method, url: origin.url });
+
+    };
+    readAll = async (req, res) => {
+        //const { method, originalUrl } = req;
+        const filter = req.query;
+        const response = await this.service.readAll(filter);
+        //console.log('Pasa por aquí: readAll');
+        //console.log('response: ', response);
         if (response.length === 0) {
+            //CustomError.new(errors.notFound);
             res.json404();
         }
+        //return res.status(200).json({ response, method, url: originalUrl });
         res.json200(response);
     };
     readById = async (req, res) => {
+        //const { method, originalUrl } = req;
         const { id } = req.params;
         const response = await this.service.readById(id);
         if (!response) {
+            //CustomError.new(errors.notFound);
             res.json404();
         }
         res.json200(response);
