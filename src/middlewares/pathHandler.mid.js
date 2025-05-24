@@ -1,7 +1,7 @@
 const pathHandler = (req, res) => {
-    const error = 'Path not found';
-    const { method, originalURL } = req;
-    return res.status(404).json({ error, method, originalURL })
+    const error = 'Not found URL';
+    const { method, originalUrl } = req;
+    return res.status(404).json({ error, method, originalUrl })
 };
 
 export default pathHandler;
