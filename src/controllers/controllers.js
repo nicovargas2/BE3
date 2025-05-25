@@ -1,6 +1,5 @@
-import CustomError from "../helpers/errors/customError.js";
-import { productsService } from "../services/products.service.js"
-//import { productsService, usersService } from "../services/service.js";
+//import CustomError from "../helpers/errors/customError.js";
+import { productsService, usersService } from "../services/service.js";
 
 // Esto tiene toda la lógica de negocio, es decir, la lógica de la aplicación.
 class Controller {
@@ -66,6 +65,5 @@ class Controller {
 }
 
 const productsController = new Controller(productsService);
-//const usersController = new Controller(usersService);
-//export { productsController, usersController };
-export { productsController };
+const usersController = new Controller(usersService);
+export { productsController, usersController };
