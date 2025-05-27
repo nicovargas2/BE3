@@ -8,6 +8,8 @@ import argvs from "./src/helpers/arguments.helper.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js"; //para manejar los errores
 import logger from "./src/helpers/logger.helper.js"; //para manejar los logs
 import winstonMiddleware from "./src/middlewares/winston.mid.js";
+import cluster from "cluster"; //para manejar el cluster
+import { cpus } from "os";
 
 /* server settings */
 const server = express();
@@ -15,9 +17,26 @@ const port = process.env.PORT || 8080;
 const ready = async () => {
     //console.log("server ready on port: " + port + " and mode: " + argvs.mode);
     logger.INFO(`Server ready on port: ${port} and mode: ${argvs.mode}`);
-    await dbConnect(process.env.LINK_DB_LOCAL);
+    logger.INFO(`Server ready on pid:` + process.pid);
+    await dbConnect(process.env.MONGODB_URI);
 };
-server.listen(port, ready);
+
+//antes de iniciar el servidor, verifico si estoy en modo cluster
+const isPrimary = cluster.isPrimary;
+if (isPrimary) {
+    logger.INFO(`Primary Server ready, pid:` + process.pid);
+    // si es un proceso primario crea los workers
+    const numberOfProcess = cpus().length;
+    for (let index = 1; index <= numberOfProcess; index++) {
+        cluster.fork();
+    }
+} else {
+    // si es un worker levanta un servidor/un nodo del cluster
+    server.listen(port, ready);
+}
+
+// ya no levanto acá, porque estoy en modo cluster
+//server.listen(port, ready);
 
 /* middlewares settings */
 server.use(compression({ brotli: { enabled: true, zlib: {} } })); //para comprimir las respuestas
