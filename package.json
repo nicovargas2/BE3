@@ -7,18 +7,24 @@
   "scripts": {
     "start": "node ./index.js --mode=prod",
     "dev": "node --watch ./index.js",
-    "test": "node ./index.js --mode=test"
+    "test": "node ./index.js --mode=test",
+    "artillery-pocos": "artillery quick --count 500 --num 2 'http://localhost:8080/api/sumar/pocos' -o './test/artillery/pocos.json'",
+    "artillery-muchos": "artillery quick --count 500 --num 2 'http://localhost:8080/api/sumar/muchos' -o './test/artillery/muchos.json'",
+    "artillery-flujo": "artillery run ./test/artillery/flow/config.yaml -o './test/artillery/flow/flujo.json'",
+    "artillery-reporte": "artillery report --output './test/artillery/flow/flujo.html' ./test/artillery/flow/flujo.json"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "artillery-plugin-metrics-by-endpoint": "^1.17.0",
     "commander": "^14.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-compression": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.15.0"
+    "mongoose": "^8.15.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^9.8.0"

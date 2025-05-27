@@ -1,3 +1,5 @@
+import logger from '../../src/helpers/logger.helper.js';
+
 /* desarrollar una funciona que sirva para sumar*/
 
 //1ro: definir la funcion
@@ -23,18 +25,18 @@ const sumarNumeros = (...nums) => {
 const test1 = () => {
     const resultado = sumarNumeros(1, "casa");
     if (resultado === null) {
-        console.log("TEST 1: ok");
+        logger.INFO("TEST 1: ok");
     } else {
-        console.log("TEST 1: no pasó");
+        logger.ERROR("TEST 1: no pasó");
     }
 };
 //T2: si no hay numeros, devuelve cero
 const test2 = () => {
     const resultado = sumarNumeros();
     if (resultado === 0) {
-        console.log("TEST 2: ok");
+        logger.INFO("TEST 2: ok");
     } else {
-        console.log("TEST 2: no pasó");
+        logger.ERROR("TEST 2: no pasó");
     }
 };
 
@@ -42,9 +44,9 @@ const test2 = () => {
 const test3 = () => {
     const resultado = sumarNumeros(1, 2);
     if (resultado === 3) {
-        console.log("TEST 3: ok");
+        logger.INFO("TEST 3: ok");
     } else {
-        console.log("TEST 3: no pasó");
+        logger.ERROR("TEST 3: no pasó");
     }
 };
 
@@ -52,9 +54,9 @@ const test3 = () => {
 const test4 = () => {
     const resultado = sumarNumeros(1, 2, 3, 4, 5);
     if (resultado === 15) {
-        console.log("TEST 4: ok");
+        logger.INFO("TEST 4: ok");
     } else {
-        console.log("TEST 4: no pasó");
+        logger.ERROR("TEST 4: no pasó");
     }
 }
 

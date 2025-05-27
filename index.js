@@ -6,12 +6,15 @@ import indexRouter from "./src/routers/index.router.js";
 import pathHandler from "./src/middlewares/pathHandler.mid.js";
 import argvs from "./src/helpers/arguments.helper.js";
 import errorHandler from "./src/middlewares/errorHandler.mid.js"; //para manejar los errores
+import logger from "./src/helpers/logger.helper.js"; //para manejar los logs
+import winstonMiddleware from "./src/middlewares/winston.mid.js";
 
 /* server settings */
 const server = express();
 const port = process.env.PORT || 8080;
 const ready = async () => {
-    console.log("server ready on port: " + port + " and mode: " + argvs.mode);
+    //console.log("server ready on port: " + port + " and mode: " + argvs.mode);
+    logger.INFO(`Server ready on port: ${port} and mode: ${argvs.mode}`);
     await dbConnect(process.env.LINK_DB_LOCAL);
 };
 server.listen(port, ready);
@@ -19,6 +22,7 @@ server.listen(port, ready);
 /* middlewares settings */
 server.use(compression({ brotli: { enabled: true, zlib: {} } })); //para comprimir las respuestas
 server.use(express.json());
+server.use(winstonMiddleware);
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
 
