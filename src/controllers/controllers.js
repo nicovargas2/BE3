@@ -10,7 +10,6 @@ class Controller {
         //const { method, originalUrl } = req;
         const data = req.body;
         const response = await this.service.createOne(data);
-        //console.log('Pasa por aquí: createOne');
         //res.status(201).json({ response, method, url: originalUrl });
         res.json201(response);
     };
@@ -18,7 +17,6 @@ class Controller {
         //const { method, originalUrl } = req;
         const filter = req.query;
         const response = await this.service.readAll(filter);
-        console.log('Pasa por aquí: readAllError');
         return res.status(200).json({ response, method, url: origin.url });
 
     };
@@ -26,8 +24,6 @@ class Controller {
         //const { method, originalUrl } = req;
         const filter = req.query;
         const response = await this.service.readAll(filter);
-        //console.log('Pasa por aquí: readAll');
-        //console.log('response: ', response);
         if (response.length === 0) {
             //CustomError.new(errors.notFound);
             res.json404();
