@@ -1,0 +1,47 @@
+# version de la API de kubernetes
+apiVersion: apps/v1
+# tipo de recurso a crear
+kind: Deployment
+# nombre del recurso a crear
+metadata:
+  name: commercetp-deploy
+# especificaciones del deployment
+spec:
+  # numero de replicas del deployment
+  replicas: 10
+  # selector para identificar los pods del deployment
+  selector:
+    matchLabels:
+      # podria ser diferente, investigar
+      app: commercetp
+  # template para crear los pods del deployment
+  template:
+    metadata:
+      labels:
+        app: commercetp
+    spec:
+      containers:
+        - name: commercetp
+          image: nicosagrav/commercetp:1.0.0
+          ports:
+            - containerPort: 9000 # el interno
+---
+# service
+apiVersion: v1
+kind: Service
+metadata:
+  name: commercetp-service
+spec:
+  type: NodePort # tipo de servicio, puede ser ClusterIP, NodePort o LoadBalancer
+  selector:
+    app: commercetp # selector para identificar los pods del servicio
+  ports:
+    - port: 9000 # puerto interno del servicio
+      targetPort: 9000 # puerto que va a redirigir dentro del contenedor
+      nodePort: 30001 
+      # puerto externo del servicio(accesible por fuera), debe estar en el rango de 30000 a 32767
+      # es el puerto donde van a funcionar todas las replicas de los pods
+
+
+
+# seguir en min 45
