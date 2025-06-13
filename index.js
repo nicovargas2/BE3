@@ -10,6 +10,12 @@ import logger from "./src/helpers/logger.helper.js"; //para manejar los logs
 import winstonMiddleware from "./src/middlewares/winston.mid.js";
 import cluster from "cluster"; //para manejar el cluster
 import { cpus } from "os";
+// serve es un middleware de swagger para poder configurar los archivos estaticos necesarios para la interfaz de usuario de swagger
+// setup hace el renderizado de la interfaz de usuario de swagger con la vista correspondiente
+// y los datos del yaml
+import { serve, setup } from "swagger-ui-express"; //para servir la documentacion de la API
+import swaggerSpec from "./src/helpers/swagger.helper.js"; //para importar la documentacion de la API
+import { set } from "mongoose";
 
 /* server settings */
 const server = express();
@@ -44,6 +50,9 @@ server.use(express.json());
 server.use(winstonMiddleware);
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
+
+// swagger settings
+server.use("/api/docs", serve, setup(swaggerSpec)); //para servir la documentacion de la API
 
 /* router settings */
 server.use("/", indexRouter);
