@@ -15,7 +15,9 @@
     "build-image": "docker build -t coder-njv .",
     "run-image": "docker run -p 8088:8080 coder-njv",
     "retag-image": "docker tag coder-njv nicosagrav/commercetp:1.0.0",
-    "push-image": "docker push nicosagrav/commercetp:1.0.0"
+    "push-image": "docker push nicosagrav/commercetp:1.0.0",
+    "mocha": "mocha ./test/mocha",
+    "chai": "mocha ./test/chai"
   },
   "keywords": [],
   "author": "",
@@ -33,6 +35,8 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^9.8.0"
+    "@faker-js/faker": "^9.8.0",
+    "chai": "^5.2.0",
+    "mocha": "^11.7.0"
   }
 }
