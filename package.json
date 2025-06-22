@@ -14,8 +14,8 @@
     "artillery-reporte": "artillery report --output './test/artillery/flow/flujo.html' ./test/artillery/flow/flujo.json",
     "build-image": "docker build -t coder-njv .",
     "run-image": "docker run -p 8088:8080 coder-njv",
-    "retag-image": "docker tag coder-njv nicosagrav/commercetp:1.0.0",
-    "push-image": "docker push nicosagrav/commercetp:1.0.0",
+    "retag-image": "docker tag coder-njv nicosagrav/commercetp:2.0.0",
+    "push-image": "docker push nicosagrav/commercetp:2.0.0",
     "mocha": "mocha ./test/mocha",
     "chai": "mocha ./test/chai",
     "supertest": "mocha ./test/supertest"
@@ -25,12 +25,16 @@
   "license": "ISC",
   "dependencies": {
     "artillery-plugin-metrics-by-endpoint": "^1.17.0",
+    "bcrypt": "^6.0.0",
     "commander": "^14.0.0",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "express-compression": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.15.0",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "winston": "^3.17.0"

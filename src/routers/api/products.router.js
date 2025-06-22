@@ -1,5 +1,5 @@
 //import { Router } from 'express';
-import CustomRouter from '../../helpers/customRouter.helper.js';
+import CustomRouter from "../../helpers/CustomRouter.helper.js";
 import { productsController } from '../../controllers/controllers.js';
 
 // const productsRouter = Router();
