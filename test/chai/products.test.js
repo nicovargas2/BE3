@@ -1,6 +1,6 @@
 import 'dotenv/config'; // Load environment variables from .env file
 import { expect } from "chai";
-import { productsManager } from '../../src/dao/managers/mongo.manager.js';
+import { productsManager } from '../../src/dao/manager.mongo.js';
 import dbConnect from '../../src/helpers/dbConnect.helper.js';
 import logger from "../../src/helpers/logger.helper.js"; //para manejar los logs
 

@@ -23,12 +23,12 @@ components:
           description: Rol que ocupa el usuario en el servidor
           type: string
       example:
-        name: igna
+        name: Juan
         date: 1990-07-09
-        email: igna@coder.com
+        email: Juan@coder.com
         password: hola1234
         avatar: https://cdn-icons-png.flaticon.com/512/266/266033.png
-        role: ADMIN
+        role: USER
   responses:
     error400:
       type: object
@@ -115,7 +115,7 @@ paths:
                   description: Contraseña para iniciar sesión del usuario
                   type: string
               example:
-                email: kyla.smith77@coder.com.ar
+                email: Juan@coder.com
                 password: hola1234
       responses:
         200:
@@ -152,6 +152,120 @@ paths:
                 $ref: '#/components/responses/error401'
         500:
           description: Error del lado del servidor al iniciar sesión
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error500'
+
+  /api/auth/register:
+    post:
+      summary: Registra un nuevo usuario
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        201:
+          description: Usuario registrado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method:
+                    type: string
+                  url:
+                    type: string
+                  response:
+                    type: string
+                example:
+                  method: post
+                  url: /api/auth/register
+                  response: Registered
+        400:
+          description: Datos inválidos para el registro
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error400'
+        500:
+          description: Error del lado del servidor al registrar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error500'
+
+  /api/auth/signout:
+    post:
+      summary: Cierra la sesión del usuario actual
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Sesión cerrada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method:
+                    type: string
+                  url:
+                    type: string
+                  response:
+                    type: string
+                example:
+                  method: post
+                  url: /api/auth/signout
+                  response: Signed out
+        401:
+          description: Usuario no autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error401'
+        500:
+          description: Error del lado del servidor al cerrar sesión
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error500'
+
+  /api/auth/online:
+    get:
+      summary: Verifica si el usuario está autenticado y online
+      tags:
+        - Auth
+      responses:
+        200:
+          description: Usuario autenticado y online
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  method:
+                    type: string
+                  url:
+                    type: string
+                  response:
+                    type: string
+                example:
+                  method: get
+                  url: /api/auth/online
+                  response: User is online
+        401:
+          description: Usuario no autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error401'
+        500:
+          description: Error del lado del servidor al verificar estado online
           content:
             application/json:
               schema:

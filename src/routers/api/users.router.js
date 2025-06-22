@@ -1,4 +1,4 @@
-import CustomRouter from "../../helpers/customRouter.helper.js";
+import CustomRouter from "../../helpers/CustomRouter.helper.js";
 import { usersController } from "../../controllers/controllers.js";
 
 class UsersRouter extends CustomRouter {

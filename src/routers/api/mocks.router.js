@@ -1,4 +1,4 @@
-import CustomRouter from "../../helpers/customRouter.helper.js";
+import CustomRouter from "../../helpers/CustomRouter.helper.js";
 import createMockProduct from "../../helpers/mocks/products.mock.js";
 import createMockUser from "../../helpers/mocks/users.mock.js";
 import { productsService, usersService } from "../../services/service.js";
