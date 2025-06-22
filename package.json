@@ -17,7 +17,8 @@
     "retag-image": "docker tag coder-njv nicosagrav/commercetp:1.0.0",
     "push-image": "docker push nicosagrav/commercetp:1.0.0",
     "mocha": "mocha ./test/mocha",
-    "chai": "mocha ./test/chai"
+    "chai": "mocha ./test/chai",
+    "supertest": "mocha ./test/supertest"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@faker-js/faker": "^9.8.0",
     "chai": "^5.2.0",
-    "mocha": "^11.7.0"
+    "mocha": "^11.7.0",
+    "supertest": "^7.1.1"
   }
 }
