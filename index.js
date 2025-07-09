@@ -16,6 +16,8 @@ import { cpus } from "os";
 import { serve, setup } from "swagger-ui-express"; //para servir la documentacion de la API
 import swaggerSpec from "./src/helpers/swagger.helper.js"; //para importar la documentacion de la API
 import { set } from "mongoose";
+import cors from "cors"; //para permitir el acceso a la API desde otros dominios
+import cookieParser from "cookie-parser";
 
 /* server settings */
 const server = express();
@@ -23,7 +25,7 @@ const port = process.env.PORT || 8080;
 const ready = async () => {
     //console.log("server ready on port: " + port + " and mode: " + argvs.mode);
     logger.INFO(`Server ready on port: ${port} and mode: ${argvs.mode}`);
-    logger.INFO(`Server ready on pid:` + process.pid);
+    logger.INFO(`Server ready on pid: ` + process.pid);
     await dbConnect(process.env.MONGODB_URI);
 };
 
@@ -46,10 +48,17 @@ if (isPrimary) {
 
 /* middlewares settings */
 server.use(compression({ brotli: { enabled: true, zlib: {} } })); //para comprimir las respuestas
+server.use(cookieParser()); //para manejar las cookies
 server.use(express.json());
 server.use(winstonMiddleware);
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static("public"));
+
+server.use(cors({
+    origin: true,
+    credentials: true // para permitir cookies
+}));
+
 
 // swagger settings
 server.use("/api/docs", serve, setup(swaggerSpec)); //para servir la documentacion de la API
