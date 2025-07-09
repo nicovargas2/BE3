@@ -3,9 +3,6 @@ info:
   title: API de Productos
   version: 1.0.0
   description: Documentación de la API para la gestión de productos en la tienda.
-servers:
-  - url: http://localhost:9000
-    description: Servidor local
 components:
   securitySchemes:
     cookieAuth:

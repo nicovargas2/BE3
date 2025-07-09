@@ -7,6 +7,9 @@ const cartsRouter = Router();
 // Solo usuarios autenticados con rol USER pueden interactuar con el carrito
 const userPolicy = setupPolicies(['USER']);
 
+// Crear carrito para el usuario autenticado
+cartsRouter.post('/create', userPolicy, cartsController.createCart);
+
 // Agregar producto al carrito
 cartsRouter.post('/add', userPolicy, cartsController.addProductToCart);
 

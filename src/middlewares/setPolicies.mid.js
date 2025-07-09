@@ -7,7 +7,18 @@ import { verifyToken } from "../helpers/token.helper.js";
 const setupPolicies = (policies) => async (req, res, next) => {
     try {
         if (policies.includes("PUBLIC")) return next();
-        const token = req?.cookies?.token;
+        // prueba token
+        //const token = req?.cookies?.token;
+        let token = req?.cookies?.token;
+        if (!token && req.headers.authorization) {
+            const authHeader = req.headers.authorization;
+            if (authHeader.startsWith("Bearer ")) {
+                token = authHeader.substring(7);
+            }
+        }
+        if (!token) return res.json401("Token no proporcionado");
+        // fin prueba
+
         const data = verifyToken(token);
         const { role, user_id } = data;
         if (!role || !user_id) return res.json401();

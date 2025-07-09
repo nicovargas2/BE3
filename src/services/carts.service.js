@@ -1,6 +1,7 @@
 import { cartsManager } from "../dao/manager.mongo.js";
 
 class CartsService {
+  createCart = async (data) => await cartsManager.createOne(data);
   addProductToCart = async (data) => await cartsManager.create(data);
   readProductsFromUser = async (data) => await cartsManager.read(data);
   updateCart = async (cart_id, data) => await cartsManager.updateById(cart_id, data, { new: true });

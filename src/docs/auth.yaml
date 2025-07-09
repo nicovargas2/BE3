@@ -1,4 +1,9 @@
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
@@ -96,6 +101,8 @@ components:
         error: Fatal error
 paths:
   /api/auth/login:
+    security:
+      - bearerAuth: []
     post:
       summary: Inicia la sesión de un usuario, guardando el token en una cookie
       tags:
@@ -158,6 +165,8 @@ paths:
                 $ref: '#/components/responses/error500'
 
   /api/auth/register:
+    security:
+      - bearerAuth: []
     post:
       summary: Registra un nuevo usuario
       tags:
@@ -200,6 +209,8 @@ paths:
                 $ref: '#/components/responses/error500'
 
   /api/auth/signout:
+    security:
+      - bearerAuth: []
     post:
       summary: Cierra la sesión del usuario actual
       tags:
@@ -236,6 +247,8 @@ paths:
                 $ref: '#/components/responses/error500'
 
   /api/auth/online:
+    security:
+      - bearerAuth: []
     get:
       summary: Verifica si el usuario está autenticado y online
       tags:

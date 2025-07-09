@@ -5,6 +5,16 @@ class CartsController {
         this.service = service;
     }
 
+    createCart = async (req, res) => {
+        const { _id } = req.user;
+        const response = await cartsService.createCart({ user_id: _id });
+        if (response) {
+            res.json201(response);
+        } else {
+            res.json400();
+        }
+    }
+
     addProductToCart = async (req, res) => {
         const { _id } = req.user;
         const { product_id, quantity } = req.body;
