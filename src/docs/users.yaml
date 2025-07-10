@@ -33,7 +33,7 @@ components:
         email:
           type: string
           description: email del usuario
-          example: "example@email.com"
+          example: "example@coder.com"
         password:
           type: string
           description: Contraseña del usuario
@@ -50,7 +50,7 @@ components:
       example:
         name: Juan
         date: "1990-07-09"
-        email: "example@email.com"
+        email: "juan1234@coder.com"
     Error:
       type: object
       properties:

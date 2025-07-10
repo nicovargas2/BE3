@@ -27,6 +27,7 @@ const ready = async () => {
     logger.INFO(`Server ready on port: ${port} and mode: ${argvs.mode}`);
     logger.INFO(`Server ready on pid: ` + process.pid);
     await dbConnect(process.env.MONGODB_URI);
+    //await dbConnect(process.env.LINK_DB_LOCAL); //esto conecta a la base de datos local
 };
 
 //antes de iniciar el servidor, verifico si estoy en modo cluster

@@ -30,16 +30,11 @@ components:
               product_id:
                 type: string
                 description: ID del producto
-                example: "60c72b2f9b1e8e001c8e4b8b"
+                example: "686ecc03efa4f55fd7e433ae"
               quantity:
                 type: integer
                 description: Cantidad de ese producto
                 example: 2
-        state:
-          type: string
-          description: Estado del carrito
-          enum: [reserved, paid, delivered]
-          example: reserved
       description: Modelo de carrito
       example:
         _id: "60c72b2f9b1e8e001c8e4b8a"
@@ -47,7 +42,6 @@ components:
         products:
           - product_id: "60c72b2f9b1e8e001c8e4b8b"
             quantity: 2
-        state: reserved
     Error:
       type: object
       properties:
@@ -104,152 +98,108 @@ components:
           schema:
             $ref: '#/components/schemas/Success'
 paths:
-  /api/carts/create:
-    post:
+  /api/carts/clear:
+    delete:
+      summary: Limpia el carrito del usuario autenticado
+      tags:
+        - Carts
       security:
         - bearerAuth: []
-      summary: Crear un carrito para un usuario
-      description: Crea un carrito vacío asociado a un usuario.
-      tags: [Carts]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user_id
-                - product_id
-              properties:
-                user_id:
-                  type: string
-      responses:
-        201:
-          description: Carrito creado exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Success'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-  /api/carts/add:
-    post:
-      security:
-        - bearerAuth: []
-      summary: Agregar un producto a un carrito
-      description: Agrega un producto al carrito del usuario.
-      tags: [Carts]
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required:
-                - user_id
-                - product_id
-                - quantity
-              properties:
-                user_id:
-                  type: string
-                product_id:
-                  type: string
-                quantity:
-                  type: integer
       responses:
         200:
-          description: Producto agregado exitosamente
+          description: Carrito limpiado exitosamente
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Success'
-        400:
-          $ref: '#/components/responses/BadRequest'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-  /api/carts/update/{cart_id}:
-    put:
-      security:
-        - bearerAuth: []
-      summary: Actualizar un carrito
-      description: Actualiza la cantidad o estado de un carrito.
-      tags: [Carts]
-      parameters:
-        - in: path
-          name: cart_id
-          required: true
-          schema:
-            type: string
-          description: ID del carrito a actualizar
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                quantity:
-                  type: integer
-                state:
-                  type: string
-                  enum: [reserved, paid, delivered]
-      responses:
-        200:
-          description: Carrito actualizado exitosamente
+        401:
+          description: Usuario no autenticado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
-        400:
-          $ref: '#/components/responses/BadRequest'
+                $ref: '#/components/responses/UnauthorizedError'
         404:
-          $ref: '#/components/responses/NotFound'
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          description: Error del lado del servidor al limpiar el carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InternalServerError'
   /api/carts/mycart:
     get:
+      summary: Obtiene el carrito del usuario autenticado
+      tags:
+        - Carts
       security:
         - bearerAuth: []
-      summary: Obtener el carrito del usuario logueado
-      description: Devuelve el carrito del usuario autenticado.
-      tags: [Carts]
       responses:
         200:
-          description: Carrito del usuario encontrado
+          description: Carrito obtenido exitosamente
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Cart'
-        404:
-          $ref: '#/components/responses/NotFound'
-        500:
-          $ref: '#/components/responses/InternalServerError'
-  /api/carts/remove/{cart_id}:
-    delete:
-      security:
-        - bearerAuth: []
-      summary: Vaciar el carrito
-      description: Elimina todos los productos del carrito especificado.
-      tags: [Carts]
-      parameters:
-        - in: path
-          name: cart_id
-          required: true
-          schema:
-            type: string
-          description: ID del carrito a vaciar
-      responses:
-        200:
-          description: Carrito vaciado exitosamente
+        401:
+          description: Usuario no autenticado
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Success'
+                $ref: '#/components/responses/UnauthorizedError'
         404:
-          $ref: '#/components/responses/NotFound'
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
         500:
-          $ref: '#/components/responses/InternalServerError'
+          description: Error del lado del servidor al obtener el carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InternalServerError'
+  /api/carts/add/product:
+    post:
+      summary: Agrega un producto al carrito del usuario autenticado
+      tags:
+        - Carts
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pid:
+                  type: string
+                  description: ID del producto a agregar
+                  example: "684a4415cccdb7cfcdf2cb15"
+                cid:
+                  type: string
+                  description: ID del carrito al que se agregará el producto
+                  example: "686ecc03efa4f55fd7e433ae"
+      responses:
+        201:
+          description: Producto agregado exitosamente al carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        400:
+          description: Datos inválidos para agregar el producto al carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error400'
+        500:
+          description: Error del lado del servidor al agregar el producto al carrito
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/error500'

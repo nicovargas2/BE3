@@ -30,7 +30,7 @@ components:
       example:
         name: Juan
         date: 1990-07-09
-        email: Juan@coder.com
+        email: juan1234@coder.com
         password: hola1234
         avatar: https://cdn-icons-png.flaticon.com/512/266/266033.png
         role: USER
@@ -122,7 +122,7 @@ paths:
                   description: Contraseña para iniciar sesión del usuario
                   type: string
               example:
-                email: Juan@coder.com
+                email: juan1234@coder.com
                 password: hola1234
       responses:
         200:
