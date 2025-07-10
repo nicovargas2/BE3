@@ -4,6 +4,7 @@ import { usersManager } from "../dao/manager.mongo.js";
 import { compareHash, createHash } from "../helpers/hash.helper.js";
 import { createToken } from "../helpers/token.helper.js";
 import errors from "../helpers/errors/errors.js";
+import { cartDao } from "../dao/cart.dao.js";
 
 passport.use(
   "register",
@@ -18,8 +19,22 @@ passport.use(
         if (one) {
           return done(null, null, errors.invalid);
         }
-        req.body.password = createHash(password)
-        const user = await usersManager.createOne(req.body);
+
+        // modificacion para carrito
+        const newCart = await cartDao.create();
+
+        //creamos el usuario
+        const newUser = {
+          name: req.body.name,
+          date: req.body.date || new Date(),
+          email: req.body.email,
+          password: req.body.password = createHash(password),
+          avatar: req.body.avatar || "https://cdn-icons-png.flaticon.com/512/266/266033.png",
+          role: req.body.role || "USER",
+          cart: newCart._id
+        }
+
+        const user = await usersManager.createOne(newUser);
         done(null, user);
       } catch (error) {
         done(error);
